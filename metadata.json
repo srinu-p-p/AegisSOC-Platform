@@ -1,0 +1,6 @@
+{
+  "name": "AegisSOC - AI Threat Detection System",
+  "description": "AI-powered SOC platform with ML, DL, NLP, Anomaly Detection & Gemini LLM Incident Response Playbooks",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
