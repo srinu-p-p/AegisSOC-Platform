@@ -18,12 +18,23 @@ import {
   Code
 } from 'lucide-react';
 import { MOCK_SECURITY_LOGS } from '../data/mockSecurityData';
-import { generateIncidentSummaryPDF } from '../utils/pdfGenerator';
+import { generateIncidentSummaryPDF, generateComprehensiveSubmissionPDF } from '../utils/pdfGenerator';
 
 export const DeliverablesHubView: React.FC = () => {
   const [activeDocSection, setActiveDocSection] = useState<'overview' | 'presentation' | 'video' | 'techdocs' | 'models'>('overview');
 
   const deliverables = [
+    {
+      id: 'pdf_full_submission',
+      title: 'Complete 8-Module Project Submission PDF Report',
+      status: 'Ready for Submission',
+      icon: FileCheck,
+      color: 'text-sky-400',
+      description: 'Comprehensive academic & technical PDF report solving all 8 submission requirements sequentially with full specs, formulas & benchmark tables.',
+      isAction: true,
+      buttonText: 'Download Complete Submission PDF',
+      onClick: () => generateComprehensiveSubmissionPDF()
+    },
     {
       id: 'pdf_report',
       title: 'High-Severity Incidents & AI Mitigation PDF Summary',
@@ -32,6 +43,7 @@ export const DeliverablesHubView: React.FC = () => {
       color: 'text-emerald-400',
       description: 'Downloadable PDF document with executive metrics, open critical/high threats, and AI recommended mitigation steps.',
       isAction: true,
+      buttonText: 'Download Incidents PDF',
       onClick: () => generateIncidentSummaryPDF(MOCK_SECURITY_LOGS)
     },
     {
@@ -136,14 +148,24 @@ export const DeliverablesHubView: React.FC = () => {
               <FileCheck className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-slate-100">Project Deliverables & Documentation Hub</h2>
-              <p className="text-xs text-slate-400">Comprehensive Submission Package - 10/10 Milestone Requirements Satisfied</p>
+              <h2 className="text-xl font-bold text-slate-100">Project Deliverables & Submission Hub</h2>
+              <p className="text-xs text-slate-400">Comprehensive Submission Package - All 8 Required Modules Verified & Formatted</p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1.5 rounded-lg text-xs font-mono font-bold">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>100% Complete & Verified</span>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={() => generateComprehensiveSubmissionPDF()}
+              className="px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold transition-all shadow-lg shadow-sky-600/30 flex items-center space-x-2"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download 8-Module Submission PDF</span>
+            </button>
+
+            <div className="flex items-center space-x-2 bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 px-3 py-1.5 rounded-lg text-xs font-mono font-bold">
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <span>100% Complete & Verified</span>
+            </div>
           </div>
         </div>
       </div>
@@ -172,10 +194,14 @@ export const DeliverablesHubView: React.FC = () => {
               {item.isAction && item.onClick && (
                 <button
                   onClick={item.onClick}
-                  className="mt-3 w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition-all shadow-md shadow-emerald-600/30 flex items-center justify-center space-x-1.5"
+                  className={`mt-3 w-full py-2 rounded-lg text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1.5 ${
+                    item.id === 'pdf_full_submission'
+                      ? 'bg-sky-600 hover:bg-sky-500 text-white shadow-sky-600/30'
+                      : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30'
+                  }`}
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span>Generate & Download PDF</span>
+                  <span>{item.buttonText || 'Generate & Download PDF'}</span>
                 </button>
               )}
             </div>
